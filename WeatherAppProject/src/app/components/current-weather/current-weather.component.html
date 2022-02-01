@@ -1,0 +1,88 @@
+<app-header></app-header>
+<div class="container">
+  <button class="btn btn-primary">Chanchal Dumbre</button>
+  <div class="jumbotron py-4 bg-white mt-4"
+    >
+    <form [formGroup]="currentWeatherForm">
+      <div class="form-group" [ngClass]="{
+        'has-danger':
+        currentWeatherForm.controls['zip'].invalid &&
+          (currentWeatherForm.controls['zip'].dirty ||
+          currentWeatherForm.controls['zip'].touched),
+        'has-success':
+        currentWeatherForm.controls['zip'].valid &&
+          (currentWeatherForm.controls['zip'].dirty ||
+          currentWeatherForm.controls['zip'].touched)
+      }">
+        <h2 class="mb-3">Please enter a zipcode:</h2>
+        <div class="d-flex">
+        <input type="number" class="form-control w-auto" formControlName="zip" placeholder="zip code" />
+        
+        <button type="submit" class="btn btn-primary ml-4" (click)="loadCurrentWeatherData()"
+        [disabled]="!currentWeatherForm.valid">
+        Add Location
+      </button>
+      
+      </div>
+      <div class="" *ngIf="
+        currentWeatherForm.controls['zip'].errors &&
+          (currentWeatherForm.controls['zip'].dirty ||
+          currentWeatherForm.controls['zip'].touched)
+        ">
+          <small *ngIf="currentWeatherForm.controls['zip'].errors['zip']" class="text-danger">Please Enter the
+            zipcode</small>
+          <small *ngIf="currentWeatherForm.controls['zip'].errors['pattern']" class="text-danger">Zipcode Should be 5
+            digit only</small>
+        </div>
+      </div>
+      
+    </form>
+  </div>
+  
+  <div class="grid-block">
+  <div class="jumbotron py-4 bg-white" *ngFor="let weatherDataModel of weatherDataList, let i = index">
+    <span class="close" (click)="deleteWeatherDataItem(weatherDataList[i].cityZipCode)">×</span>
+    <h3>
+      <span class="h2 mr-1">{{ weatherDataModel.cityName }}</span> <label class="h6">({{ weatherDataModel.cityZipCode }})</label>
+    </h3>
+    <div>
+        
+      <div>
+        <h6 class="text-underline my-3">Temperature Today:</h6>
+      <div class="d-flex justify-content-between">
+        
+        <div>
+          <label class="h2 mb-0">{{
+            weatherDataModel.currentTemperature
+            }}</label>
+          <small>(Current)</small>
+
+        </div>
+        <div>
+          <label class="h2 mb-0">{{ weatherDataModel.maxTemperature }}</label>
+          <small>(Max)</small>
+        </div>
+        <div>
+          <label class="h2 mb-0">{{ weatherDataModel.minTemperature }}</label>
+          <small>(Min)</small>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="d-flex align-items-center flex-column">
+      <figure>
+      <img class="icon" src="{{ weatherDataModel.icon }}" alt="" />
+
+        <figcaption class="text-center">
+          <h4 class="mb-0 text">{{ weatherDataModel.currentCondition }}</h4> <small class="text-grey"> {{
+            weatherDataModel.description }} </small>
+        </figcaption>
+      </figure>
+      <div>
+        <a href="{{ weatherDataModel.link }}" class="text-underline">Show forecast data for <span class="font-weight-bold">{{ weatherDataModel.cityName }}</span></a>
+
+    </div>
+    </div>
+  </div>
+  </div>
+</div>

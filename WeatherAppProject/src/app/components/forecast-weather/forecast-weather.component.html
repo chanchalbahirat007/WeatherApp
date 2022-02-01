@@ -1,0 +1,26 @@
+<app-header></app-header>
+
+<div class="container">
+  <button class="btn btn-success" (click)="back()">&lt; Go Back</button>
+  <div class="card mt-4">
+    <div class="card-header">
+      Weather forecast for <span class="font-weight-bold">{{forecastDataModel.city.name}}</span>
+    </div>
+    <ul class="list-group list-group-flush" *ngFor="let forecastWeatherModel of forecastDataModel.list">
+      <li class="list-group-item">
+        <div>
+          {{ forecastWeatherModel.dt_txt | date: 'EE, d-MMM-yyyy h:mm a'}}
+        </div>
+        <div>
+          {{ forecastWeatherModel.weather[0].main}}
+        </div>
+        <div>
+          Temprature   Min {{ forecastWeatherModel.main.temp_min}} -
+          Max {{ forecastWeatherModel.main.temp_max}}
+        </div>
+        <img class="icon" src={{forecastWeatherModel.weather[0].icon}} />
+      </li>
+    </ul>
+  </div>
+
+</div>
